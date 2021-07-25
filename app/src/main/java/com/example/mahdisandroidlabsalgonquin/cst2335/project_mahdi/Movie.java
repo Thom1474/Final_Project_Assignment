@@ -77,4 +77,17 @@ public class Movie {
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "title='" + title + '\'' +
+                ", year=" + year +
+                ", rating=" + rating +
+                ", runTime='" + runTime + '\'' +
+                ", mainActors='" + mainActors + '\'' +
+                ", plot='" + plot + '\'' +
+                ", posterUrl='" + posterUrl + '\'' +
+                '}';
+    }
 }
