@@ -1,15 +1,19 @@
 package com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,16 +41,13 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie m = movieData.get(position);
-        //Log.d("MOVIE", Integer.toString(movieData.size()));
-        //Log.d("MOVIE0", movieData.get(0).toString());
-        //Log.d("MOVIE1", movieData.get(1).toString());
-        //Log.d("MOVIE2", movieData.get(2).toString());
-        //Log.d("MOVIE3", movieData.get(3).toString());
-        //Log.d("MOVIe pos",Integer.toString(position));
-        //holder.movieTitleTV.setText(m.title);
-        //holder.movieYearTV.setText(m.year);
-        holder.movieTitleTV.setText(m.getTitle());
-        holder.movieYearTV.setText(Integer.toString(m.getYear()));
+
+        holder.movieTitle.setText(m.getTitle());
+        holder.movieYear.setText(m.getYear());
+        holder.runTime.setText(m.getRunTime());
+        holder.director.setText(m.getDirector());
+        holder.imageView.setImageBitmap(m.getMoviePoster());
+
     }
 
     @Override
@@ -59,14 +60,19 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
     }
 
     public  class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView movieTitleTV;
-        TextView movieYearTV;
+        TextView movieTitle;
+        TextView movieYear;
+        TextView runTime;
+        TextView director;
+        ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            movieTitleTV = itemView.findViewById(R.id.movieTitleTextView);
-            movieYearTV = itemView.findViewById(R.id.movieYearTextView);
-            //movieTitleTV.setText("text from code");
+            movieTitle = itemView.findViewById(R.id.movieTitle);
+            movieYear = itemView.findViewById(R.id.movieYear);
+            runTime = itemView.findViewById(R.id.runTime);
+            director = itemView.findViewById(R.id.director);
+            imageView = itemView.findViewById(R.id.imageView);
 
         }
 
