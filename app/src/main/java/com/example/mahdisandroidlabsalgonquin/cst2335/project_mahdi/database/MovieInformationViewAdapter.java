@@ -1,21 +1,17 @@
-package com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi;
+package com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.R;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInformationViewAdapter.ViewHolder> {
 
@@ -23,10 +19,10 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
     private LayoutInflater movieInflater;
     private ItemClickListener mOnClickListener;
 
-    MovieInformationViewAdapter(ArrayList<Movie> data) {
+    public MovieInformationViewAdapter(ItemClickListener itemClickListener, ArrayList<Movie> data) {
+        this.mOnClickListener = itemClickListener;
         this.movieData = data;
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,18 +70,22 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
             director = itemView.findViewById(R.id.director);
             imageView = itemView.findViewById(R.id.imageView);
 
+            itemView.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
-            if (mOnClickListener != null) mOnClickListener.onItemClick(v, getAbsoluteAdapterPosition());
+            if (mOnClickListener != null){
+                mOnClickListener.onItemClick(v, getAbsoluteAdapterPosition());
+            }
         }
     }
-
+/*
     void setClickListener(ItemClickListener itemClickListener) {
         this.mOnClickListener = itemClickListener;
     }
-
+*/
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }

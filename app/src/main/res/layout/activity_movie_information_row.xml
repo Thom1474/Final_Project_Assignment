@@ -8,34 +8,49 @@
     android:padding="10dp"
     tools:context=".MovieInformationRow">
 
-    <TextView
-        android:id="@+id/movieTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="movie title" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/movieYear"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="movie year" />
-    <TextView
-        android:id="@+id/runTime"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="10sp"
-        android:hint="movie year" />
-    <TextView
-        android:id="@+id/director"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="10sp"
-        android:hint="movie year" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="3">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        />
+            <TextView
+                android:id="@+id/movieTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="movie title" />
 
+            <TextView
+                android:id="@+id/movieYear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="movie year" />
+
+            <TextView
+                android:id="@+id/runTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="movie year"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/director"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="movie year"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>
