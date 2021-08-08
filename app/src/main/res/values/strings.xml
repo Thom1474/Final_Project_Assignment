@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Final_Project_Assignment</string>
+    <string name="success">success</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="instruction">Removed</string>
+    <string name="soccerDelete">Remove from favourites, Row:-</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="OK">Ok</string>
+    <string name="ratting">Rating</string>
+    <string name="sccoerhome">Home</string>
+    <string name="Ins" translatable="false">These news stories should appear in the list below.
+        When you click on a title, the image, date, news item URL, and description text will appear.
+        A button allows you to store the article to your favourites database, and another
+        allows you to open the URL in a browser. There is also a "remove from favourites" option under the favourites area,
+        which deletes the article from the database. </string>
+    <string name="sFavo">Favourites</string>
+    <string name="shelp">Instructions</string>
+    <string name="dataSave">Data Saved</string>
+    <string name="Rating">Rating</string>
+    <string name="Instr">Instruction</string>
+    <string name="sDelete">Remove favourite</string>
+    <string name="sfinsish">Done</string>
+    <string name="title_activity_soccer__favorites_">""</string>
 </resources>
