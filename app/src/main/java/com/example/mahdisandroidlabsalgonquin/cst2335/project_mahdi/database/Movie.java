@@ -11,15 +11,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class Movie {
 
     String title;
     String year;
     String rated;
-    String released;
     String runTime;
     String genre;
+    String released;
     String director;
     String writer;
     String plot;
@@ -28,7 +30,7 @@ public class Movie {
     String movieId = "0";
 
     public Movie(String movieId, String title, String year,  String rated, String runTime,
-                 String genre, String director, String writer, String plot, String moviePoster){
+                 String genre, String released, String director, String writer, String plot, String moviePoster) {
 
         this.movieId = movieId;
         this.title = title;
@@ -36,35 +38,12 @@ public class Movie {
         this.rated = rated;
         this.runTime = runTime;
         this.genre = genre;
+        this.released = released;
         this.director = director;
         this.writer = writer;
         this.plot = plot;
         this.moviePosterUrl = moviePoster;
-        this.moviePoster = this.getMovieImage(moviePoster);
-
-    }
-    public Movie(String movieString){
-
-        try {
-
-            String[] movieArr = movieString.split("#");
-
-            this.movieId = movieArr[0];
-            this.title = movieArr[1];
-            this.year = movieArr[2];
-            this.rated = movieArr[3];
-            this.runTime = movieArr[4];
-            this.genre = movieArr[5];
-            this.director = movieArr[6];
-            this.writer = movieArr[7];
-            this.plot = movieArr[8];
-            this.moviePosterUrl = movieArr[9];
-            this.moviePoster = this.getMovieImage(this.moviePosterUrl);
-
-        }catch(Exception ie)
-        {
-            System.out.println("Error with creating movie from JSON string");
-        }
+        this.moviePoster = null;
 
     }
 
@@ -156,10 +135,23 @@ public class Movie {
         this.movieId = movieId;
     }
 
-    private Bitmap getMovieImage(String moviePoster) {
+    public String getMoviePosterUrl() {
+        return moviePosterUrl;
+    }
+
+    public void setMoviePosterUrl(String moviePosterUrl) {
+        this.moviePosterUrl = moviePosterUrl;
+    }
+
+    public Bitmap getMovieImage() {
+
+        if(this.moviePoster != null)
+        {
+            return this.moviePoster;
+        }
         Bitmap image = null;
         try {
-            URL url = new URL(moviePoster);
+            URL url = new URL(this.moviePosterUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             int responseCode = connection.getResponseCode();
@@ -167,7 +159,7 @@ public class Movie {
                 image = BitmapFactory.decodeStream(connection.getInputStream());
 
                 try {
-                    FileOutputStream fOut = new FileOutputStream(new File(moviePoster));
+                    FileOutputStream fOut = new FileOutputStream(new File(this.moviePosterUrl));
                     image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                     fOut.flush();
                     fOut.close();
@@ -181,6 +173,9 @@ public class Movie {
         } catch (IOException ioe) {
             Log.e("Connection error:", ioe.getMessage());
 
+        }catch (Exception ioe) {
+            Log.e("Connection error:", ioe.getMessage());
+
         }
         return image;
     }
@@ -192,28 +187,13 @@ public class Movie {
                 ", year=" + year +
                 ", rating=" + rated +
                 ", runTime='" + runTime + '\'' +
+                ", released='" + released + '\'' +
                 ", director='" + director + '\'' +
                 ", genre='" + genre + '\'' +
                 ", writer='" + writer + '\'' +
                 ", plot='" + plot + '\'' +
                 ", moviePoster='" + moviePosterUrl + '\'' +
                 '}';
-    }
-
-    public String toStorageString() {
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append(movieId + "#");
-        buffer.append(title + "#");
-        buffer.append(year + "#");
-        buffer.append(rated + "#");
-        buffer.append(runTime + "#");
-        buffer.append(director + "#");
-        buffer.append(genre + "#");
-        buffer.append(writer + "#");
-        buffer.append(plot + "#");
-        buffer.append(moviePosterUrl);
-        return buffer.toString();
     }
 
 }

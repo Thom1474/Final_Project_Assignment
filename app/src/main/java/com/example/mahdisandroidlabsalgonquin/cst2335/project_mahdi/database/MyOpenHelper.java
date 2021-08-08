@@ -14,7 +14,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public static final String title = "title";
     public static final String year = "year";
     public static final String rated = "rated";
-    public static final String released = "release";
+    public static final String released = "released";
     public static final String runTime = "runTime";
     public static final String genre = "genre";
     public static final String director = "director";
@@ -36,9 +36,9 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                 + "year Text, "
                 + "rated Text, "
                 + "released Text, "
+                + "director Text, "
                 + "runTime Text, "
                 + "genre Text, "
-                + "director Text, "
                 + "writer Text, "
                 + "plot Text, "
                 + "moviePosterUrl TEXT)");

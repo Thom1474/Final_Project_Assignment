@@ -113,6 +113,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             String rated = null;
             String runTime = null;
             String genre = null;
+            String released = null;
             String director = null;
             String writer = null;
             String plot = null;
@@ -125,6 +126,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             rated = theDocument.getString("Rated");
             runTime = theDocument.getString("Runtime");
             genre = theDocument.getString("Genre");
+            released = theDocument.getString("Released");
             director = theDocument.getString("Director");
             writer = theDocument.getString("Writer");
             plot = theDocument.getString("Plot");
@@ -132,7 +134,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
 
             movieCount = movieCount + 1;
             String movieCountStr = String.valueOf(movieCount);
-            Movie m = new Movie(movieCountStr, title, year, rated, runTime, genre, director, writer, plot, moviePoster);
+            Movie m = new Movie(movieCountStr, title, year, rated, runTime, genre, released, director, writer, plot, moviePoster);
             data.add(m);
 
             /// Store in shared preferences
@@ -173,7 +175,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
 
         getActivity().runOnUiThread(() -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            adapter = new MovieInformationViewAdapter(this, data);
+            adapter = new MovieInformationViewAdapter(this, data, getActivity());
             // adapter.setClickListener(this);
             recyclerView.setAdapter(adapter);
 

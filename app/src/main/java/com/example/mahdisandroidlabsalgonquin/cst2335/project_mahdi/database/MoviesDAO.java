@@ -32,7 +32,7 @@ public class MoviesDAO {
         contentValues.put("runTime", movie.runTime);
         contentValues.put("genre", movie.genre);
         contentValues.put("director", movie.director);
-        contentValues.put("writer", movie. writer);
+        contentValues.put("writer", movie.writer);
         contentValues.put("plot", movie.plot);
         contentValues.put("moviePosterUrl", movie.moviePosterUrl);
 
@@ -47,28 +47,27 @@ public class MoviesDAO {
         movies.clear();
         Cursor results = db.rawQuery("Select * from " + MyOpenHelper.TABLE_NAME + ";", null);
 
-        if(results.moveToFirst()) {
-            while (results.moveToNext()) {
-                int _idCol = results.getColumnIndex("_id");
+        //  if(results.moveToFirst()) {
+        while (results.moveToNext()) {
+            int _idCol = results.getColumnIndex("_id");
 
-                int mIndex = results.getColumnIndex(MyOpenHelper.movieId);
-                String movieId = results.getString(mIndex);
-                String title = results.getString(results.getColumnIndex(MyOpenHelper.title));
-                String year = results.getString(results.getColumnIndex(MyOpenHelper.year));
-                String rated = results.getString(results.getColumnIndex(MyOpenHelper.rated));
-                String released = results.getString(results.getColumnIndex(MyOpenHelper.released));
-                String runTime = results.getString(results.getColumnIndex(MyOpenHelper.runTime));
-                String genre = results.getString(results.getColumnIndex(MyOpenHelper.genre));
-                String director = results.getString(results.getColumnIndex(MyOpenHelper.director));
-                String writer = results.getString(results.getColumnIndex(MyOpenHelper.writer));
-                String plot = results.getString(results.getColumnIndex(MyOpenHelper.plot));
-                String moviePosterUrl = results.getString(results.getColumnIndex(MyOpenHelper.moviePosterUrl));
+            String movieId = results.getString(results.getColumnIndex(MyOpenHelper.movieId));
+            String title = results.getString(results.getColumnIndex(MyOpenHelper.title));
+            String year = results.getString(results.getColumnIndex(MyOpenHelper.year));
+            String rated = results.getString(results.getColumnIndex(MyOpenHelper.rated));
+            String released = results.getString(results.getColumnIndex(MyOpenHelper.released));
+            String runTime = results.getString(results.getColumnIndex(MyOpenHelper.runTime));
+            String genre = results.getString(results.getColumnIndex(MyOpenHelper.genre));
+            String director = results.getString(results.getColumnIndex(MyOpenHelper.director));
+            String writer = results.getString(results.getColumnIndex(MyOpenHelper.writer));
+            String plot = results.getString(results.getColumnIndex(MyOpenHelper.plot));
+            String moviePosterUrl = results.getString(results.getColumnIndex(MyOpenHelper.moviePosterUrl));
 
-                Movie movie = new Movie(movieId, title, year, rated, runTime, genre, director, writer, plot, moviePosterUrl);
-                movies.add(movie);
+            Movie movie = new Movie(movieId, title, year, rated, runTime, genre, released, director, writer, plot, moviePosterUrl);
+            movies.add(movie);
 
-            }
         }
+        // }
         results.close();
         /*
 
@@ -127,7 +126,7 @@ public class MoviesDAO {
         MyOpenHelper opener = new MyOpenHelper(context);
         SQLiteDatabase db = opener.getWritableDatabase();
 
-        db.delete(MyOpenHelper.TABLE_NAME,"title=?", new String[]{movie.getTitle()});
+        db.delete(MyOpenHelper.TABLE_NAME, "title=?", new String[]{movie.getTitle()});
 
     }
 }
