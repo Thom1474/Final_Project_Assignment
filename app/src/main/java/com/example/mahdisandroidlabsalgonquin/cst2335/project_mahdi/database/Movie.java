@@ -1,8 +1,10 @@
 package com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -43,7 +45,16 @@ public class Movie {
         this.writer = writer;
         this.plot = plot;
         this.moviePosterUrl = moviePoster;
-        this.moviePoster = null;
+
+        try {
+            Executor newThread = Executors.newSingleThreadExecutor();
+            newThread.execute(() -> {
+                this.moviePoster = this.getMovieImage();
+            });
+        }
+        catch(Exception ie){
+            ie.printStackTrace();
+        }
 
     }
 
@@ -158,7 +169,10 @@ public class Movie {
             if (responseCode == 200) {
                 image = BitmapFactory.decodeStream(connection.getInputStream());
 
+                /*
                 try {
+                    String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/image_path";
+                    // FileOutputStream fOut = new FileOutputStream(new File(filePath + "/" + this.moviePosterUrl));
                     FileOutputStream fOut = new FileOutputStream(new File(this.moviePosterUrl));
                     image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                     fOut.flush();
@@ -167,16 +181,16 @@ public class Movie {
                     e.printStackTrace();
 
                 }
+                */
             }
-            final Bitmap imageIcon = image;
 
         } catch (IOException ioe) {
             Log.e("Connection error:", ioe.getMessage());
 
-        }catch (Exception ioe) {
-            Log.e("Connection error:", ioe.getMessage());
+        }//catch (Exception ioe) {
+        // Log.e("Connection error:", ioe.getMessage());
 
-        }
+        // }
         return image;
     }
 

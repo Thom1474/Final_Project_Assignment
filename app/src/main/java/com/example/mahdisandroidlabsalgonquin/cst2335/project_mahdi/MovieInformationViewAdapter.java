@@ -1,5 +1,6 @@
-package com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database;
+package com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -8,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.R;
+import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database.Movie;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -22,12 +22,12 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
     private ArrayList<Movie> movieData;
     private LayoutInflater movieInflater;
     private ItemClickListener mOnClickListener;
-    private Activity context;
+    private Activity activity;
 
-    public MovieInformationViewAdapter(ItemClickListener itemClickListener, ArrayList<Movie> data, Context _context) {
+    public MovieInformationViewAdapter(ItemClickListener itemClickListener, ArrayList<Movie> data, Activity _activity) {
         this.mOnClickListener = itemClickListener;
         this.movieData = data;
-        this.context = _context;
+        this.activity = _activity;
     }
 
     @Override
@@ -48,20 +48,19 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
         holder.movieYear.setText(movie.getYear());
         holder.runTime.setText(movie.getRunTime());
         holder.director.setText(movie.getDirector());
-        Bitmap bitmap = null;
+
         try {
 
             Executor newThread = Executors.newSingleThreadExecutor();
             newThread.execute(() -> {
-                Bitmap bitmap = movie.getMovieImage();
-               context.runOnUiThread(() -> {
-
+               final Bitmap bitmap = movie.getMovieImage();
+               activity.runOnUiThread(() -> {
+                   holder.imageView.setImageBitmap(bitmap);
                 });
             });
         }catch(Exception e){
 
         }
-        holder.imageView.setImageBitmap(bitmap);
 
     }
 
@@ -87,14 +86,12 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
             movieYear = itemView.findViewById(R.id.movieYear);
             runTime = itemView.findViewById(R.id.runTime);
             director = itemView.findViewById(R.id.director);
-            try {
+            //try {
                 imageView = itemView.findViewById(R.id.imageView);
-            }catch(Exception e){
+            //}catch(Exception e){
 
-            }
-
+            //}
             itemView.setOnClickListener(this);
-
         }
 
         @Override

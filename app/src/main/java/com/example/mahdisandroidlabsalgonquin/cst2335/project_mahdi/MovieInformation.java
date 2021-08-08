@@ -5,9 +5,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database.Movie;
-import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database.MovieInformationViewAdapter;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ public class MovieInformation extends AppCompatActivity {
     MovieInformationViewAdapter adapter;
     private ArrayList<Movie> data = new ArrayList<Movie>();
     int movieCount = 0;
+    Button movieInformationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,14 @@ public class MovieInformation extends AppCompatActivity {
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+/*
+        movieInformationButton = (Button) findViewById(R.id.movieInformationButton);
+        movieInformationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(this, MovieInformation.class));
+            }
+        });*/
     }
 
 }

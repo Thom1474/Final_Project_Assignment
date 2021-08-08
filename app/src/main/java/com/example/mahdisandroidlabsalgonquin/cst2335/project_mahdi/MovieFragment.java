@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database.Movie;
-import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database.MovieInformationViewAdapter;
 import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.database.MoviesDAO;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,13 +37,15 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 
-public class MovieFragment extends Fragment implements MovieInformationViewAdapter.ItemClickListener{
+public class MovieFragment extends Fragment implements MovieInformationViewAdapter.ItemClickListener {
 
     MovieInformationViewAdapter adapter;
     private ArrayList<Movie> data = new ArrayList<Movie>();
     int movieCount = 0;
     private RecyclerView recyclerView;
     private MoviesDAO moviesDAO;
+    private boolean loadFromDB = false;
+    private EditText movieTitle;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -62,31 +64,35 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
 
         recyclerView = view.findViewById(R.id.movieListRecyclerView);
-        EditText movieTitle = view.findViewById(R.id.movieTitle);
+        movieTitle = view.findViewById(R.id.movieTitle);
         movieTitle.setText(getDataFromPreferences());
 
-        Button loadAPI =  view.findViewById(R.id.loadAPI);
+        Button loadAPI = view.findViewById(R.id.loadAPI);
         loadAPI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String movie = movieTitle.getText().toString();
                 saveToPreferences(movie);
 
-                InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(movieTitle.getWindowToken(), 0);
-
+                loadFromDB = false;
                 Executor newThread = Executors.newSingleThreadExecutor();
                 newThread.execute(() -> {
                     processJSON(null, view, movie);
                 });
             }
         });
-        Button loadDB =  view.findViewById(R.id.loadDB);
+        Button loadDB = view.findViewById(R.id.loadDB);
         loadDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadFromDB = true;
                 data = moviesDAO.getMovies();
                 reloadRecyclerView();
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(movieTitle.getWindowToken(), 0);
+
             }
         });
         return view;
@@ -95,7 +101,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
     private void processJSON(AlertDialog dialog, View view, String movie) {
 
         try {
-           //  String stringURL = "http://www.omdbapi.com/?i=tt3896198&apikey=e708e8bd";
+            //  String stringURL = "http://www.omdbapi.com/?i=tt3896198&apikey=e708e8bd";
             String stringURL = "http://www.omdbapi.com/?t=" + movie + "&apikey=e708e8bd";
 
             URL url = new URL(stringURL);
@@ -135,19 +141,9 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             movieCount = movieCount + 1;
             String movieCountStr = String.valueOf(movieCount);
             Movie m = new Movie(movieCountStr, title, year, rated, runTime, genre, released, director, writer, plot, moviePoster);
+            data.clear();
             data.add(m);
 
-            /// Store in shared preferences
-            /*
-            SharedPreferences sharedPreferences = getActivity().getPreferences((Context.MODE_PRIVATE));
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            String movieStringForStorage = m.toStorageString();
-            editor.putString(movieCountStr, movieStringForStorage);
-            editor.apply();
-             */
-            ///
-
-            // JSONArray weatherArray = theDocument.getJSONArray("weather");
             reloadRecyclerView();
 
         } catch (IOException | JSONException ioe) {
@@ -156,16 +152,14 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
         }
     }
 
-    private void saveToPreferences(String itemToSave)
-    {
+    private void saveToPreferences(String itemToSave) {
         SharedPreferences sharedPreferences = getActivity().getPreferences((Context.MODE_PRIVATE));
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("movieEntry", itemToSave);
         editor.apply();
     }
 
-    private String getDataFromPreferences()
-    {
+    private String getDataFromPreferences() {
         SharedPreferences sharedPreferences = getActivity().getPreferences((Context.MODE_PRIVATE));
         String itemSaved = sharedPreferences.getString("movieEntry", "");
         return itemSaved;
@@ -188,37 +182,44 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
         showDialog(position);
     }
 
-    private void showDialog(int _position)
-    {
+    private void showDialog(int _position) {
         Movie mDelete = data.get(_position);
+        if (!loadFromDB) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Do you want to save the movie: " + mDelete.getTitle())
+                    .setTitle("Save Movie")
+                    .setNegativeButton("No", (dialog, cl) -> {
+                    })
+                    .setPositiveButton("Yes", (dialog, cl) -> {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Do you want to save the movie: " + mDelete.getTitle())
-                .setTitle("Save Movie")
-                .setNegativeButton("No", (dialog, cl) -> {
-                })
-                .setPositiveButton("Yes", (dialog, cl) -> {
+                        final int position = _position;
+                        // editor.remove(m.getMovieId());
+                        Movie movie = data.get(position);
+                        moviesDAO.insertMovie(movie);
 
-                    final int position = _position;
-                    // editor.remove(m.getMovieId());
-                   Movie movie = data.get(position);
-                   moviesDAO.insertMovie(movie);
+                        this.reloadRecyclerView();
+                        Snackbar.make(movieTitle, "You added the movie " + movie.getTitle(), Snackbar.LENGTH_LONG).show();
+                    })
+                    .create().show();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Do you want to delete from your favourites: " + mDelete.getTitle())
+                    .setTitle("Delete Movie")
+                    .setNegativeButton("No", (dialog, cl) -> {
+                    })
+                    .setPositiveButton("Yes", (dialog, cl) -> {
 
-                    this.reloadRecyclerView();
-                    // adt.notifyItemRemoved(position);
+                        final int position = _position;
+                        Movie movie = data.get(position);
+                        data.remove(position);
+                        moviesDAO.deleteMovie(movie);
+                        this.reloadRecyclerView();
 
-                    // db.delete(MyOpenHelper.TABLE_NAME, "_id=?", new String[] { String.valueOf(removedMessage.getId()) });
-/*
+                        Snackbar.make(movieTitle, "You deleted the movie " + movie.getTitle(), Snackbar.LENGTH_LONG).show();
 
-                    Snackbar.make(messageText, "you deleted movie " + m.getTitle(), Snackbar.LENGTH_LONG)
-                            .setAction("Undo", clk -> {
-                                messages.add(position, removedMessage);
-                                adt.notifyItemInserted(position);
-                            })
-                            .show();
-                            */
+                    })
+                    .create().show();
+        }
 
-                })
-                .create().show();
     }
 }

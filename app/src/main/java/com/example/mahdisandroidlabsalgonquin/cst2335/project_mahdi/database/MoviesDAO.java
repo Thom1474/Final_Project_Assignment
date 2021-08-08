@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.MovieInformationViewAdapter;
+
 import java.util.ArrayList;
 
 public class MoviesDAO {
@@ -18,6 +20,10 @@ public class MoviesDAO {
 
     }
 
+    /**
+     * Inserts a movie object into the database
+     * @param movie the movie object to be inserted
+     */
     public void insertMovie(Movie movie) {
 
         MyOpenHelper opener = new MyOpenHelper(context);
@@ -69,58 +75,8 @@ public class MoviesDAO {
         }
         // }
         results.close();
-        /*
-
-        sendbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SimpleDateFormat sdf = new SimpleDateFormat("EE, dd-MMM-yyyy hh-mm-ss a", Locale.getDefault());
-                String time = sdf.format(new Date());
-
-                ChatMessage thisMessage = new ChatMessage(editTextMessage.getText().toString(), 1, time, 0);
-                contentValues newRow = new contentValues();
-
-                newRow.put(MyOpenHelper.col_Message, thisMessage.getMessage());
-                newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceieve());
-                newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
-
-                db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_Message, newRow);
-
-                ArrayList<ChatMessage> cm = new ArrayList();
-                cm.add(thisMessage);
-                messages.addAll(cm);
-                // adt.notifyItemInserted(messages.size() - 1);
-                adt.notifyDataSetChanged();
-                editTextMessage.setText("");
-            }
-        });
-        Button recievebutton = findViewById(R.id.recievebutton);
-        recievebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SimpleDateFormat sdf = new SimpleDateFormat("EE, dd-MMM-yyyy hh-mm-ss a", Locale.getDefault());
-                String time = sdf.format(new Date());
-
-                ChatMessage thisMessage = new ChatMessage(editTextMessage.getText().toString(), 2, time, 0);
-                contentValues newRow = new contentValues();
-
-                newRow.put(MyOpenHelper.col_Message, thisMessage.getMessage());
-                newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceieve());
-                newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
-
-                db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_Message, newRow);
-
-                ArrayList<ChatMessage> cm = new ArrayList();
-                cm.add(thisMessage);
-                messages.addAll(cm);
-                // adt.notifyItemInserted(messages.size() - 1);
-                adt.notifyDataSetChanged();
-                editTextMessage.setText("");
-            }
-        });*/
         return movies;
     }
-
 
     public void deleteMovie(Movie movie) {
         MyOpenHelper opener = new MyOpenHelper(context);
