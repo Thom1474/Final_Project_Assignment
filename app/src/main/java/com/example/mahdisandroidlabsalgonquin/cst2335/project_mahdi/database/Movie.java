@@ -16,7 +16,19 @@ import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
+/**
+ * This class represents the variables and constructor
+ *
+ * @author Mahdi Nasser
+ * @version 1.0.0
+ */
+
 public class Movie {
+
+    /**
+     * This represents the declaration of the variables
+     */
 
     String title;
     String year;
@@ -31,9 +43,17 @@ public class Movie {
     Bitmap moviePoster;
     String movieId = "0";
 
+
+    /**
+     * This represents the declaration of the variables inside the constructor
+     */
+
     public Movie(String movieId, String title, String year,  String rated, String runTime,
                  String genre, String released, String director, String writer, String plot, String moviePoster) {
 
+        /**
+         * This represents the setting method of the variables
+         */
         this.movieId = movieId;
         this.title = title;
         this.year = year;
@@ -46,6 +66,10 @@ public class Movie {
         this.plot = plot;
         this.moviePosterUrl = moviePoster;
 
+        /**
+         * This represents try and Catch method of new thread
+         */
+
         try {
             Executor newThread = Executors.newSingleThreadExecutor();
             newThread.execute(() -> {
@@ -57,6 +81,10 @@ public class Movie {
         }
 
     }
+
+    /**
+     * This represents the return method of the variables
+     */
 
     public String getTitle() {
         return title;
@@ -154,6 +182,10 @@ public class Movie {
         this.moviePosterUrl = moviePosterUrl;
     }
 
+    /**
+     * This represents loading of the image from URL
+     */
+
     public Bitmap getMovieImage() {
 
         if(this.moviePoster != null)
@@ -193,6 +225,10 @@ public class Movie {
         // }
         return image;
     }
+
+    /**
+     * This represents the String to String output returning Movie detail each line
+     */
 
     @Override
     public String toString() {

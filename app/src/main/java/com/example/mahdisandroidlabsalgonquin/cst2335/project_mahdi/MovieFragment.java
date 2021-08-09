@@ -36,6 +36,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents the fragment
+ *
+ * @author Mahdi Nasser
+ * @version 1.0.0
+ */
+
 
 public class MovieFragment extends Fragment implements MovieInformationViewAdapter.ItemClickListener {
 
@@ -125,6 +132,11 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             String plot = null;
             String moviePoster = null;
 
+            /**
+             * This JSON represents the Data Object  responsible to output data from datasource
+             */
+
+
             JSONObject theDocument = new JSONObject(text);
 
             title = theDocument.getString("Title");
@@ -152,12 +164,21 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
         }
     }
 
+    /**
+     * This class represents the storing movie loaded to preferences
+     */
+
     private void saveToPreferences(String itemToSave) {
         SharedPreferences sharedPreferences = getActivity().getPreferences((Context.MODE_PRIVATE));
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("movieEntry", itemToSave);
         editor.apply();
     }
+
+    /**
+     * This  represents getting data from datasource or preferences
+     */
+
 
     private String getDataFromPreferences() {
         SharedPreferences sharedPreferences = getActivity().getPreferences((Context.MODE_PRIVATE));
@@ -181,6 +202,11 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
         Log.d("Click", "clicked on item at row number " + position);
         showDialog(position);
     }
+
+    /**
+     * This  represents the alert dialog that asks whether you want to delete or save movie
+     *
+     */
 
     private void showDialog(int _position) {
         Movie mDelete = data.get(_position);

@@ -9,7 +9,19 @@ import com.example.mahdisandroidlabsalgonquin.cst2335.project_mahdi.MovieInforma
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the Data Object Class responsible to get data from datasource
+ *
+ * @author Mahdi Nasser
+ * @version 1.0.0
+ */
+
+
 public class MoviesDAO {
+
+    /**
+     * This represents the arrays and variable instantiation
+     */
 
     private Context context;
     private ArrayList<Movie> movies = new ArrayList();
@@ -45,6 +57,10 @@ public class MoviesDAO {
         long id = db.insert(MyOpenHelper.TABLE_NAME, null, contentValues);
         System.out.println("MovieDAO insert: " + id);
     }
+    /**
+     * gets movie  arraylist from database
+     *
+     */
 
     public ArrayList<Movie> getMovies() {
         MyOpenHelper opener = new MyOpenHelper(context);
@@ -77,6 +93,11 @@ public class MoviesDAO {
         results.close();
         return movies;
     }
+
+    /**
+     * deletes a movie object from the database
+     * @param movie the movie object to be deleted
+     */
 
     public void deleteMovie(Movie movie) {
         MyOpenHelper opener = new MyOpenHelper(context);

@@ -6,7 +6,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 
+
+/**
+ * This class represents the Database created
+ *
+ * @author Mahdi Nasser
+ * @version 1.0.0
+ */
+
+
 public class MyOpenHelper extends SQLiteOpenHelper {
+
+    /**
+     * Static variables declared responsible to build database
+     */
+
 
     public static final String Name = "TheDatabase";
     public static final int version = 1;
@@ -25,6 +39,11 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public MyOpenHelper( Context context) {
         super(context, Name, null, version);
     }
+
+
+    /**
+     * This represents creating a table inside the database
+     */
 
     @Override
     public void onCreate(SQLiteDatabase db) {
