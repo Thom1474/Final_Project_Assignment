@@ -4,7 +4,7 @@
     <string name="hello_message">!مرحبا</string>
     <string name="button_message">أنا زر</string>
     <string name="hello_blank_fragment">مرحبا..قطعة فارغة</string>
-    <string name="title_activity_main">أول أكتيفيتي</string>
+    <string name="title_activity_main">أول أكتفيتي</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">أول قطعة</string>
     <string name="second_fragment_label"> ثاني قطعة</string>
