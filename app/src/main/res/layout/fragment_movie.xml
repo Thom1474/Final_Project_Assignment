@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".MovieInformation">
 
+    <Button
+        android:id="@+id/help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Need help?" />
+
     <EditText
         android:id="@+id/movieTitle"
         android:layout_width="match_parent"

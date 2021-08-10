@@ -110,4 +110,6 @@ public class MovieInformationViewAdapter extends RecyclerView.Adapter<MovieInfor
         void onItemClick(View view, int position);
     }
 
+
+
 }

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -91,6 +93,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             }
         });
         Button loadDB = view.findViewById(R.id.loadDB);
+        Button help = view.findViewById(R.id.loadDB);
         loadDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +105,40 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
 
             }
         });
+
+        Button help_menu = view.findViewById(R.id.help);
+        help_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("You need to type a name of a movie to find movie details: " )
+                        .setTitle("Help??")
+                        .setNegativeButton("Close help", (dialog, cl) -> {
+                            Context context = getActivity();
+                            CharSequence text = "You closed the help menu function!";
+                            int duration = Toast.LENGTH_LONG;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        })
+                        .setPositiveButton("OK", (dialog, cl) -> {
+                            Snackbar.make(movieTitle, "Thank you for asking for help!!! " , Snackbar.LENGTH_LONG).show();
+
+
+
+
+                        })
+                        .create().show();
+
+
+            }
+
+        });
+
+
+
+
+
         return view;
     }
 
@@ -205,7 +242,6 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
 
     /**
      * This  represents the alert dialog that asks whether you want to delete or save movie
-     *
      */
 
     private void showDialog(int _position) {
@@ -215,6 +251,12 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             builder.setMessage("Do you want to save the movie: " + mDelete.getTitle())
                     .setTitle("Save Movie")
                     .setNegativeButton("No", (dialog, cl) -> {
+                        Context context = getActivity();
+                        CharSequence text = "You didn't save the movie favorites list!";
+                        int duration = Toast.LENGTH_LONG;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     })
                     .setPositiveButton("Yes", (dialog, cl) -> {
 
@@ -225,6 +267,7 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
 
                         this.reloadRecyclerView();
                         Snackbar.make(movieTitle, "You added the movie " + movie.getTitle(), Snackbar.LENGTH_LONG).show();
+
                     })
                     .create().show();
         } else {
@@ -232,6 +275,12 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
             builder.setMessage("Do you want to delete from your favourites: " + mDelete.getTitle())
                     .setTitle("Delete Movie")
                     .setNegativeButton("No", (dialog, cl) -> {
+                        Context context = getActivity();
+                        CharSequence text = "Movie is not deleted from favorites list!";
+                        int duration = Toast.LENGTH_LONG;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     })
                     .setPositiveButton("Yes", (dialog, cl) -> {
 
@@ -243,9 +292,16 @@ public class MovieFragment extends Fragment implements MovieInformationViewAdapt
 
                         Snackbar.make(movieTitle, "You deleted the movie " + movie.getTitle(), Snackbar.LENGTH_LONG).show();
 
+
                     })
                     .create().show();
         }
 
     }
 }
+
+
+
+
+
+
